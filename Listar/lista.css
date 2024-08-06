@@ -21,6 +21,17 @@ a {
     text-decoration: none;
 }
 
+#editar{
+    margin: 20px 10px;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    text-decoration: none;
+}
+
 #eliminar{
     margin: 20px;
     padding: 10px;
