@@ -42,7 +42,8 @@ function displayExpenses() {
                     <td>${expense.description}</td>
                     <td>${expense.date}</td>
                     <td>
-                        <button onclick="editExpense(${index})">Editar</button>
+                        <button id="editar" onclick="editExpense(${index})">Editar</button>
+                        <button id="eliminar" onclick="deleteExpense(${index})">Eliminar</button>
                     </td>
                 </tr>
             `).join('')}
@@ -68,6 +69,19 @@ function editExpense(index) {
     document.getElementById('editFormContainer').style.display = 'block';
     document.getElementById('eliminar').style.display='none'
     
+}
+
+function deleteExpense(index) {
+    var expenses;
+    if (localStorage.getItem("expenses") == null){
+        expenses = [];
+    } else {
+        expenses = JSON.parse(localStorage.getItem("expenses"));
+    }
+
+    expenses.splice(index, 1);
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+    displayExpenses()
 }
 
 // Maneja el envío del formulario de edición
@@ -135,11 +149,3 @@ function displayMessage(message, type, elementId) {
     messageElement.textContent = message;
     messageElement.style.color = type === 'error' ? 'red' : 'green';
 }
-
-document.getElementById('eliminar').addEventListener('click', function() {
-    // Eliminar todos los gastos
-    localStorage.removeItem('expenses');
-    // Mostrar mensaje de confirmación y actualizar la lista de gastos
-    displayMessage('Todos los gastos han sido eliminados.', 'success', 'editMessage');
-    displayExpenses();
-});
