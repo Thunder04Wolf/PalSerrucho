@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Gasto</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <form id="expenseForm" class="contenedor">
+        <h1>Registrar Nuevo Gasto</h1>
+        <label for="amount">Monto:</label>
+        <input type="number" id="amount" name="amount" step="0.01" required>
+        <br>
+        <label for="description">Descripción:</label>
+        <input type="text" id="description" name="description" required>
+        <br>
+        <label for="date">Fecha:</label>
+        <input type="date" id="date" name="date" required>
+        <br>
+        <button type="submit">Guardar Gasto</button>
+        <br>
+        <a href="../Listar/lista.html">Volver A la Lista de Gastos</a>
+        <p id="message"></p>
+    </form>
+    <script src="index.js"></script>
+</body>
+</html>
