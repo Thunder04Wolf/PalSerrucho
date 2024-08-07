@@ -71,17 +71,34 @@ function editExpense(index) {
     
 }
 
-function deleteExpense(index) {
-    var expenses;
-    if (localStorage.getItem("expenses") == null){
-        expenses = [];
-    } else {
-        expenses = JSON.parse(localStorage.getItem("expenses"));
-    }
+let expenseToDeleteIndex = null;
 
-    expenses.splice(index, 1);
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-    displayExpenses()
+function deleteExpense(index) {
+    expenseToDeleteIndex = index;
+    // Mostrar el modal
+    document.getElementById('confirmDeleteModal').style.display = 'block';
+}
+
+// Maneja la confirmación de eliminación
+document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+    if (expenseToDeleteIndex !== null) {
+        var expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+        expenses.splice(expenseToDeleteIndex, 1);
+        localStorage.setItem("expenses", JSON.stringify(expenses));
+        displayExpenses();
+    }
+    closeDeleteModal();
+});
+
+// Maneja la cancelación de eliminación
+document.getElementById('cancelDeleteButton').addEventListener('click', function() {
+    closeDeleteModal();
+});
+
+// Función para cerrar el modal
+function closeDeleteModal() {
+    document.getElementById('confirmDeleteModal').style.display = 'none';
+    expenseToDeleteIndex = null;
 }
 
 // Maneja el envío del formulario de edición
@@ -143,9 +160,3 @@ document.getElementById('cancelEditButton').addEventListener('click', function()
     document.getElementById('expensesList').style.display= 'block'
     document.getElementById('eliminar').style.display='block'
 });
-
-function displayMessage(message, type, elementId) {
-    const messageElement = document.getElementById(elementId);
-    messageElement.textContent = message;
-    messageElement.style.color = type === 'error' ? 'red' : 'green';
-}
