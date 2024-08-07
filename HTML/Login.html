@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" class="login-page">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="../Styles/LoginStyle.css" />
+</head>
+<body class="custom-body">
+  <header class="custom-header">
+    <h2 class="logo"><img src="../assets/Logo.png" alt="Logo" width="50%" /></h2>
+    <nav class="navigation">
+      <a href="#" class="custom-a">Home</a>
+      <a href="#" class="custom-a">Por definir</a>
+      <a href="#" class="custom-a">Por definir</a>
+      <a href="#" class="custom-a">Por definir</a>
+      <button class="btnLogin-popup">Login</button>
+    </nav>
+  </header>
+
+  <div class="wrapper">
+    <span class="icon-close"><ion-icon name="close"></ion-icon></span>
+    <div class="form-box login">
+      <h2 class="custom-h2-form-box">Login</h2>
+      <form id="loginForm">
+        <div class="input-box">
+          <span class="icon"><ion-icon name="mail"></ion-icon></span>
+          <input type="email" id="emailInput" required />
+          <label>Email</label>
+        </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+          <input type="password" id="passwordInput" required />
+          <label>Password</label>
+        </div>
+        <div class="remember-forgot">
+          <label><input type="checkbox" />Remember me</label>
+          <a href="#" class="custom-a-form-box">Forgot password</a>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        <div class="login-register">
+          <p class="custom-p-form-box">
+            Don't have an account?
+            <a href="#registerForm" class="register-link">Register</a>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <div class="form-box register">
+      <h2 class="custom-h2-form-box">Registration</h2>
+      <form id="registerForm" action="#loginForm">
+        <div class="input-box">
+          <span class="icon"><ion-icon name="person"></ion-icon></span>
+          <input type="text" id="registerUsername" required />
+          <label>Username</label>
+        </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="mail"></ion-icon></span>
+          <input type="email" id="registerEmail" required />
+          <label>Email</label>
+        </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+          <input type="password" id="registerPassword" required />
+          <label>Password</label>
+        </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+          <input type="password" id="registerPasswordRepeat" required />
+          <label>Confirm Password</label>
+        </div>
+        <div class="remember-forgot">
+          <label><input type="checkbox" />I agree to the terms & conditions</label>
+        </div>
+        <button type="submit" class="btn-register">Register</button>
+        <div class="login-register">
+          <p>Already have an account? <a href="#loginForm" class="login-link">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
+    import { getAuth } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+    import { getDatabase } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC-02zT4_vZC2U7n1qmSRulfM9le3PIM9I",
+      authDomain: "palserrucho-96f94.firebaseapp.com",
+      projectId: "palserrucho-96f94",
+      storageBucket: "palserrucho-96f94.appspot.com",
+      messagingSenderId: "882038664558",
+      appId: "1:882038664558:web:d154687b462a86b9ca257f"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
+
+    window.firebaseAuth = auth;
+    window.firebaseDatabase = database;
+  </script>
+
+  <script type="module" src="../js/Login.js"></script>
+  <script type="module" src="../js/Register.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
