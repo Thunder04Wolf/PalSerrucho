@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Gasto</title>
+    <link rel="stylesheet" href="lista.css" />
+  </head>
+  <body>
+    <div id="expensesList"></div>
+
+    <!-- Formulario de Edición -->
+    <div id="editFormContainer" style="display: none">
+      <h2>Editar Gasto</h2>
+      <form id="editExpenseForm">
+        <input type="hidden" id="editIndex" name="index" />
+        <label for="editAmount">Monto:</label>
+        <input
+          type="number"
+          id="editAmount"
+          name="amount"
+          step="0.01"
+          required
+        />
+        <br />
+        <label for="editDescription">Descripción:</label>
+        <input type="text" id="editDescription" name="description" required />
+        <br />
+        <label for="editDate">Fecha:</label>
+        <input type="date" id="editDate" name="date" required />
+        <br />
+        <button type="submit">Actualizar Gasto</button>
+        <button type="button" id="cancelEditButton">Cancelar</button>
+      </form>
+      <p id="editMessage"></p>
+    </div>
+
+    <!-- Modal de Confirmación (Eliminar gastos)-->
+    <div id="confirmDeleteModal" class="modal">
+      <div class="modal-content">
+        <h3>Confirmar Eliminación</h3>
+        <p>¿Estás seguro de que deseas eliminar este gasto?</p>
+        <button id="confirmDeleteButton">Eliminar</button>
+        <button id="cancelDeleteButton">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Enlace para ir a la visualización de saldos pendientes -->
+    <br>
+    <a href="../visualizacion/index.html">Ver Saldos Pendientes</a>
+
+    <script src="lista.js"></script>
+  </body>
+</html>
