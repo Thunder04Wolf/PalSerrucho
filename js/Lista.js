@@ -19,6 +19,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+let selectedExpenseId = null;
+
 // Verifica si el usuario está autenticado
 auth.onAuthStateChanged(async (user) => {
     if (user) {
@@ -33,17 +35,23 @@ auth.onAuthStateChanged(async (user) => {
 // Mostrar gastos almacenados en la tabla
 async function displayExpenses() {
     const expensesList = document.getElementById('expensesList');
-    expensesList.innerHTML = `
-        <a href="../HTML/Registro.html">Crear Nuevo Gasto</a>
-        <h2>Gastos Registrados</h2>
-    `; // Limpiar contenido actual
+    expensesList.innerHTML = ''; // Limpiar contenido actual
 
     // Obtener los gastos almacenados
     const expensesCol = collection(db, 'expenses');
     const expenseSnapshot = await getDocs(expensesCol);
 
     if (expenseSnapshot.empty) {
-        expensesList.innerHTML += `<p>No hay gastos registrados.</p>`;
+        // Crear una tabla para mostrar el mensaje
+        const noDataTable = document.createElement('table');
+        noDataTable.innerHTML = `
+            <thead>
+                <tr>
+                    <th colspan="4">No hay gastos registrados.</th>
+                </tr>
+            </thead>
+        `;
+        expensesList.appendChild(noDataTable);
         return;
     }
 
@@ -67,8 +75,8 @@ async function displayExpenses() {
                         <td>${expense.description}</td>
                         <td>${expense.date}</td>
                         <td>
-                            <button onclick="window.editExpense('${doc.id}')">Editar</button>
-                            <button onclick="window.deleteExpense('${doc.id}')">Eliminar</button>
+                            <button class="edit-button" data-id="${doc.id}">Editar</button>
+                            <button class="delete-button" data-id="${doc.id}">Eliminar</button>
                         </td>
                     </tr>
                 `;
@@ -76,12 +84,28 @@ async function displayExpenses() {
         </tbody>
     `;
     expensesList.appendChild(table);
+
+    // Añadir event listeners para los botones de editar y eliminar
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', () => editExpense(button.dataset.id));
+    });
+
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', () => {
+            selectedExpenseId = button.dataset.id;
+            openDeleteModal();
+        });
+    });
 }
 
+
 // Mostrar el formulario de edición con los datos del gasto
-window.editExpense = async function(id) {
+async function editExpense(id) {
     const expenseDoc = doc(db, 'expenses', id);
     const expenseSnapshot = await getDoc(expenseDoc);
+
+    // Ocultar la lista de gastos
+    document.querySelector('.contenedor-gasto').style.display = 'none';
 
     if (expenseSnapshot.exists()) {
         const expense = expenseSnapshot.data();
@@ -94,7 +118,6 @@ window.editExpense = async function(id) {
 
         // Mostrar el formulario de edición
         document.getElementById('editFormContainer').style.display = 'block';
-        document.getElementById('expensesList').style.display = 'none';
     }
 }
 
@@ -126,63 +149,71 @@ document.getElementById('editExpenseForm').addEventListener('submit', async func
 
     // Actualizar el gasto en Firestore
     const expenseDoc = doc(db, 'expenses', id);
-    await updateDoc(expenseDoc, {
-        amount: amount,
-        description: description,
-        date: date
-    }).then(() => {
+    try {
+        await updateDoc(expenseDoc, {
+            amount: amount,
+            description: description,
+            date: date
+        });
+
         // Mostrar mensaje de éxito
         displayMessage('Gasto actualizado exitosamente.', 'success', 'editMessage');
         
         // Ocultar el formulario de edición
         document.getElementById('editFormContainer').style.display = 'none';
-        document.getElementById('expensesList').style.display = 'block';
+        document.querySelector('.contenedor-gasto').style.display = 'block';
 
         // Mostrar gastos actualizados
         displayExpenses();
-    }).catch((error) => {
+    } catch (error) {
         console.error("Error updating expense: ", error);
         displayMessage('Error al actualizar el gasto.', 'error', 'editMessage');
-    });
+    }
 });
 
-// Maneja la acción del botón de cancelar
-document.getElementById('cancelEditButton').addEventListener('click', function() {
-    // Ocultar el formulario de edición
+// Cancelar la edición
+document.getElementById('cancelEditButton').addEventListener('click', () => {
     document.getElementById('editFormContainer').style.display = 'none';
-    document.getElementById('expensesList').style.display = 'block';
+    document.querySelector('.contenedor-gasto').style.display = 'block';
 });
 
-// Eliminar gasto
-window.deleteExpense = async function(id) {
-    // Mostrar el modal
+// Abre el modal de confirmación de eliminación
+function openDeleteModal() {
     document.getElementById('confirmDeleteModal').style.display = 'block';
-
-    // Maneja la confirmación de eliminación
-    document.getElementById('confirmDeleteButton').addEventListener('click', async function() {
-        try {
-            await deleteDoc(doc(db, 'expenses', id));
-            displayExpenses();
-            closeDeleteModal();
-        } catch (error) {
-            console.error("Error deleting expense: ", error);
-        }
-    });
-
-    // Maneja la cancelación de eliminación
-    document.getElementById('cancelDeleteButton').addEventListener('click', function() {
-        closeDeleteModal();
-    });
+    // Limpiar el mensaje de eliminación cuando se abre el modal
+    document.getElementById('editMessage').textContent = '';
 }
 
-// Función para cerrar el modal
-function closeDeleteModal() {
+// Cierra el modal de confirmación de eliminación
+document.getElementById('cancelDeleteButton').addEventListener('click', () => {
     document.getElementById('confirmDeleteModal').style.display = 'none';
-}
+    // Restablecer selectedExpenseId cuando se cancela
+    selectedExpenseId = null;
+});
 
-// Función para mostrar mensajes
-function displayMessage(message, type, elementId) {
-    const messageElement = document.getElementById(elementId);
+// Maneja la confirmación de eliminación
+document.getElementById('confirmDeleteButton').addEventListener('click', async function() {
+    if (!selectedExpenseId) return;
+
+    const expenseDoc = doc(db, 'expenses', selectedExpenseId);
+
+    try {
+        await deleteDoc(expenseDoc);
+        displayMessage('Gasto eliminado exitosamente.', 'success', 'editMessage');
+        displayExpenses();
+    } catch (error) {
+        console.error("Error deleting expense: ", error);
+        displayMessage('Error al eliminar el gasto.', 'error', 'editMessage');
+    }
+
+    // Cierra el modal y reinicia selectedExpenseId
+    document.getElementById('confirmDeleteModal').style.display = 'none';
+    selectedExpenseId = null;
+});
+
+// Función auxiliar para mostrar mensajes
+function displayMessage(message, type, targetId) {
+    const messageElement = document.getElementById(targetId);
     messageElement.textContent = message;
-    messageElement.className = type;
+    messageElement.className = type === 'error' ? 'error-message' : 'success-message';
 }

@@ -73,5 +73,5 @@ document.getElementById('expenseForm').addEventListener('submit', async function
 function displayMessage(message, type) {
     const messageElement = document.getElementById('message');
     messageElement.textContent = message;
-    messageElement.style.color = type === 'error' ? 'red' : 'green';
+    messageElement.style.color = type === 'error' ? 'red' : 'white';
 }

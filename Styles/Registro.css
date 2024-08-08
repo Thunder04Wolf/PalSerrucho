@@ -190,3 +190,7 @@ html, body {
     margin-top: 20px;
     font-weight: bold;
 }
+
+element.style {
+    color:white;
+}

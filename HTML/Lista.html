@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="List-page">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,36 +7,55 @@
     <link rel="stylesheet" href="../Styles/Lista.css" />
 </head>
 <body>
-    <div id="expensesList"></div>
+    <header class="custom-header">
+        <h2 class="logo"><img src="../assets/Logo.png" alt="Logo" width="50%" /></h2>
+        <nav class="navigation">
+            <a href="#" class="custom-a">Home</a>
+            <a href="#" class="custom-a">Por definir</a>
+            <a href="#" class="custom-a">Por definir</a>
+            <a href="#" class="custom-a">Por definir</a>
+            <button class="btnLogin-popup">Login</button>
+        </nav>
+    </header>
+    <div class="contenedor-gasto">
+        <h2>Gastos Registrados</h2>
+        <div id="expensesList"></div>
+        <a href="../HTML/Registro.html" id="createExpenseButton" class="btn" type="button" style="text-decoration: none;">Crear Nuevo Gasto</a>
+    </div>
 
     <!-- Formulario de Edición -->
     <div id="editFormContainer" style="display: none">
-        <h2>Editar Gasto</h2>
-        <form id="editExpenseForm">
-            <input type="hidden" id="editIndex" name="index" />
-            <label for="editAmount">Monto:</label>
-            <input
-              type="number"
-              id="editAmount"
-              name="amount"
-              step="0.01"
-              required
-            />
-            <br />
-            <label for="editDescription">Descripción:</label>
-            <input type="text" id="editDescription" name="description" required />
-            <br />
-            <label for="editDate">Fecha:</label>
-            <input type="date" id="editDate" name="date" required />
-            <br />
-            <button type="submit">Actualizar Gasto</button>
-            <button type="button" id="cancelEditButton">Cancelar</button>
+        <form id="editExpenseForm" class="contenedor">
+            <h1>Editar Gasto</h1>
+            <div class="input-box">
+                <input type="hidden" id="editIndex" name="index" />
+            </div>
+            <div class="input-box">
+                <label for="editAmount">Monto:</label>
+                <input
+                    type="number"
+                    id="editAmount"
+                    name="amount"
+                    step="0.01"
+                    required
+                />
+            </div>
+            <div class="input-box">
+                <label for="editDescription">Descripción:</label>
+                <input type="text" id="editDescription" name="description" required />
+            </div>
+            <div class="input-box">
+                <label for="editDate">Fecha:</label>
+                <input type="date" id="editDate" name="date" required />
+            </div>
+            <button type="submit" class="btn">Actualizar Gasto</button>
+            <button type="button" id="cancelEditButton" class="btn-link">Cancelar</button>
+            <p id="editMessage"></p>
         </form>
-        <p id="editMessage"></p>
     </div>
 
     <!-- Modal de Confirmación (Eliminar gastos) -->
-    <div id="confirmDeleteModal" class="modal">
+    <div id="confirmDeleteModal" style="display: none" class="modal">
         <div class="modal-content">
             <h3>Confirmar Eliminación</h3>
             <p>¿Estás seguro de que deseas eliminar este gasto?</p>
