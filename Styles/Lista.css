@@ -117,6 +117,11 @@ html, body {
     transition: transform 0.5s ease, height 0.2s ease;
 }
 
+.form-box .custom-h2-form-box {
+    font-size: 2em;
+    color: white;
+    text-align: center;
+  }
 
 .form-box  {
     width: 100%;
@@ -133,30 +138,58 @@ html, body {
     align-items: center;
     color: white;
     width: 100%;
+    
 }
-
-
 .input-box {
+    position: relative;
     width: 100%;
-    margin-bottom: 15px;
-}
+    height: auto;
+    border-bottom: 2px solid #ffffff;
+    margin: 30px 0;
+  }
 
-.input-box label {
-    display: block;
-    font-size: 16px;
+  #edit {
+    position: relative;
+    width: 120%;
+    height: auto;
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 10px;
+    margin: 30px 0;
+  }
+  .input-box label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 13px;
     color: #ffffff;
-    margin-bottom: 5px;
-}
-
-.input-box input {
+    font-weight: 500;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+  .input-box input:focus ~ label,
+  .input-box input:valid ~ label,
+  .input-box.input-filled label {
+    top: -5px;
+  }
+  
+  .input-box input {
     width: 100%;
-    padding: 10px;
-    border-radius: 6px;
+    height: 100%;
+    background: transparent;
     border: none;
     outline: none;
-    color: #333;
-}
-
+    color: #ffffff;
+    font-weight: 500;
+  }
+  
+  .input-box .icon {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #ffffff;
+    line-height: 50px;
+  }
 
 .btn {
     width: 100%;
@@ -277,11 +310,21 @@ button {
     transition: background-color 0.3s;
 }
 
-/* Estilo para los botones de editar y eliminar */
-.edit-button {
+
+.details-button{
     padding: 5px;
     margin-right: 3px ;
     background-color: #474e47; /* Color de fondo para el botón de editar */
+}
+
+.details-button:hover {
+    background-color: #757d75; /* Color de fondo al pasar el ratón */
+}
+/* Estilo para los botones de editar y eliminar */
+.edit-button{
+    padding: 5px;
+    margin-right: 3px ;
+    background-color: #3b953b; /* Color de fondo para el botón de editar */
 }
 
 .edit-button:hover {
@@ -326,10 +369,7 @@ label {
     font-size: 20px;
 }
 
-input {
-    margin-bottom: 10px;
-    padding: 10px;
-}
+
 
 /* button {
     margin-top: 10px;
@@ -352,8 +392,11 @@ button:hover {
 
 /* Estilos para el modal */
 /* Estilos para el modal */
+/* Estilos para el modal */
 .modal {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -362,41 +405,32 @@ button:hover {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
-
-    /* Flexbox para centrar */
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-/* Estilo para centrar el contenido del modal */
+
 .modal-content {
+    margin: auto;
+    margin-top: 18%;
+
     background-color: #fefefe;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
     max-width: 400px;
     text-align: center;
-
-    /* Asegura que el modal esté centrado en la pantalla */
-    margin: 0 auto;
 }
-
-/* Botones dentro del modal */
 .modal button {
     margin: 10px;
-    padding: 10px 10px;
+    padding: 10px 20px;
     cursor: pointer;
 }
 
-/* Estilo para el botón de confirmación */
 #confirmDeleteButton {
     color: red;
     text-transform: uppercase;
     background-color: white;
 }
 
-/* Estilo para el botón de cancelación */
 #cancelDeleteButton {
     color: #3498db;
     text-transform: uppercase;
@@ -418,4 +452,127 @@ button:hover {
 
 #createExpenseButton:hover {
     background-color: #3a843c; /* Color de fondo cuando se pasa el ratón */
+}
+/* Estilos para el contenedor de detalles */
+#detailsContainer {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: transparent;
+    padding: 40px;
+    border: 2px solid white;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    color: white;
+    width: auto;
+    max-width: auto;
+    
+}
+
+/* Estilos del contenido */
+#detailsContainer h1 {
+    margin-bottom: 20px;
+}
+
+.input-box {
+    margin-bottom: 15px;
+    left: 5px;
+    font-size: 13px;
+    color: #ffffff;
+    
+    transition: 0.5s;
+    
+}
+
+/* Estilo para la etiqueta dentro de .input-box */
+.input-box label {
+    position: absolute;
+    top: 0%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: #ffffff;
+    font-weight: bolder;
+    pointer-events: none;
+    transition: 0.5s;
+    
+  }
+  #edit label {
+    position: absolute;
+    top: -60%;
+    left: -15px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #ffffff;
+    font-weight: bolder;
+    pointer-events: none;
+    transition: 0.5s;
+    
+  }
+  
+  /* Estilo para la etiqueta cuando el input está enfocado o tiene un valor válido */
+  .input-box input:focus ~ label,
+  .input-box input:valid ~ label,
+  .input-box.input-filled label {
+    top: -5px;
+  }
+  
+  /* Estilo para los campos de entrada dentro de .input-box */
+  .input-box input {
+    top: 100%;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-weight: 500;
+  }
+  
+  /* Estilo para el icono dentro de .input-box */
+  .input-box .icon {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #ffffff;
+    line-height: 50px;
+  }
+  
+
+  .input-box ul {
+    margin: 0;
+    padding: 20px;
+    background: transparent;
+    border-radius: 6px;
+    color: #fff;
+    
+}
+.input-box p {
+    margin: 0;
+    padding: 20px;
+    background: transparent;
+    border-radius: 6px;
+    color: #fff;
+}
+
+/* Estilos para el botón de cierre */
+#closeDetailsButton {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #474e47;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#detailsPeople{
+padding-left: 40px;
+}
+#closeDetailsButton:hover {
+    background-color: #757d75;
 }

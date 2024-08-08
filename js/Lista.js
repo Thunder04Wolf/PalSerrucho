@@ -47,7 +47,7 @@ async function displayExpenses() {
         noDataTable.innerHTML = `
             <thead>
                 <tr>
-                    <th colspan="4">No hay gastos registrados.</th>
+                    <th colspan="6">No hay gastos registrados.</th>
                 </tr>
             </thead>
         `;
@@ -63,17 +63,22 @@ async function displayExpenses() {
                 <th>Monto</th>
                 <th>Descripción</th>
                 <th>Fecha</th>
+                <th>Personas</th>
+                <th>Detalles</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
             ${expenseSnapshot.docs.map(doc => {
                 const expense = doc.data();
+                const people = expense.peopleNames ? expense.peopleNames.join(', ') : 'N/A'; // Mostrar personas que deben
                 return `
                     <tr>
                         <td>${expense.amount.toFixed(2)}</td>
                         <td>${expense.description}</td>
                         <td>${expense.date}</td>
+                        <td>${people}</td>
+                        <td><button class="details-button" data-id="${doc.id}">Ver Detalles</button></td>
                         <td>
                             <button class="edit-button" data-id="${doc.id}">Editar</button>
                             <button class="delete-button" data-id="${doc.id}">Eliminar</button>
@@ -85,7 +90,7 @@ async function displayExpenses() {
     `;
     expensesList.appendChild(table);
 
-    // Añadir event listeners para los botones de editar y eliminar
+    // Añadir event listeners para los botones de detalles, editar y eliminar
     document.querySelectorAll('.edit-button').forEach(button => {
         button.addEventListener('click', () => editExpense(button.dataset.id));
     });
@@ -96,8 +101,11 @@ async function displayExpenses() {
             openDeleteModal();
         });
     });
-}
 
+    document.querySelectorAll('.details-button').forEach(button => {
+        button.addEventListener('click', () => showDetails(button.dataset.id));
+    });
+}
 
 // Mostrar el formulario de edición con los datos del gasto
 async function editExpense(id) {
@@ -209,6 +217,47 @@ document.getElementById('confirmDeleteButton').addEventListener('click', async f
     // Cierra el modal y reinicia selectedExpenseId
     document.getElementById('confirmDeleteModal').style.display = 'none';
     selectedExpenseId = null;
+});
+
+// Mostrar detalles del gasto
+// Mostrar detalles del gasto
+async function showDetails(id) {
+    const expenseDoc = doc(db, 'expenses', id);
+    const expenseSnapshot = await getDoc(expenseDoc);
+
+    if (expenseSnapshot.exists()) {
+        const expense = expenseSnapshot.data();
+        const peopleDetails = expense.peopleNames ? 
+            expense.peopleNames.map(person => `<li>${person} debe $${expense.amountPerPerson.toFixed(2)}</li>`).join('') : 'N/A';
+
+        // Rellenar el formulario de detalles con los datos del gasto
+        document.getElementById('detailsAmount').textContent = `$${expense.amount.toFixed(2)}`;
+        document.getElementById('detailsDescription').textContent = expense.description;
+        document.getElementById('detailsDate').textContent = expense.date;
+        document.getElementById('detailsPeople').innerHTML = peopleDetails;
+
+        // Ocultar la lista de gastos y el formulario de edición
+        document.querySelector('.contenedor-gasto').style.display = 'none';
+        document.getElementById('editFormContainer').style.display = 'none';
+
+        // Mostrar el contenedor de detalles
+        document.getElementById('detailsContainer').style.display = 'block';
+    }
+}
+
+// Cerrar el contenedor de detalles
+document.getElementById('closeDetailsButton').addEventListener('click', () => {
+    // Ocultar el contenedor de detalles
+    document.getElementById('detailsContainer').style.display = 'none';
+
+    // Mostrar la lista de gastos
+    document.querySelector('.contenedor-gasto').style.display = 'block';
+});
+
+
+// Cerrar el modal de detalles
+document.getElementById('closeDetailsButton').addEventListener('click', () => {
+    document.getElementById('detailsModal').style.display = 'none';
 });
 
 // Función auxiliar para mostrar mensajes

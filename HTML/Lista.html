@@ -24,13 +24,15 @@
     </div>
 
     <!-- Formulario de Edición -->
+    <!-- Formulario de Edición -->
+     
     <div id="editFormContainer" style="display: none">
         <form id="editExpenseForm" class="contenedor">
             <h1>Editar Gasto</h1>
-            <div class="input-box">
+            <div >
                 <input type="hidden" id="editIndex" name="index" />
             </div>
-            <div class="input-box">
+            <div class="input-box"  id="edit">
                 <label for="editAmount">Monto:</label>
                 <input
                     type="number"
@@ -40,11 +42,11 @@
                     required
                 />
             </div>
-            <div class="input-box">
+            <div class="input-box" id="edit">
                 <label for="editDescription">Descripción:</label>
                 <input type="text" id="editDescription" name="description" required />
             </div>
-            <div class="input-box">
+            <div class="input-box" id="edit">
                 <label for="editDate">Fecha:</label>
                 <input type="date" id="editDate" name="date" required />
             </div>
@@ -63,6 +65,30 @@
             <button id="cancelDeleteButton">Cancelar</button>
         </div>
     </div>
+<!-- Contenedor de Detalles -->
+
+<div id="detailsContainer" style="display: none" class="form-box details">
+    <h2 class="custom-h2-form-box">Detalles del Gasto</h2>
+    <div class="input-box">
+        <label for="detailsAmount">Monto:</label>
+        <p id="detailsAmount"></p>
+    </div>
+    <div class="input-box">
+        <label for="detailsDescription">Descripción:</label>
+        <p id="detailsDescription"></p>
+    </div>
+    <div class="input-box">
+        <label for="detailsDate">Fecha:</label>
+        <p id="detailsDate"></p>
+    </div>
+    <div class="input-box">
+        <label>Personas Involucradas:</label>
+        <ul id="detailsPeople"></ul>
+    </div>
+    <button id="closeDetailsButton" class="btn-link">Cerrar</button>
+</div>
+
+
 
     <script type="module" src="../js/Lista.js"></script>
 </body>

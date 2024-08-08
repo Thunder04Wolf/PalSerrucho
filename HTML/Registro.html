@@ -18,7 +18,6 @@
         </nav>
     </header>
     <div class="wrapper active-popup">
-        <!-- <span class="icon-close"><ion-icon name="close"></ion-icon></span> -->
         <div class="form-box RegisterPayments">
             <form id="expenseForm" class="contenedor">
                 <h1>Registrar Nuevo Gasto</h1>
@@ -34,14 +33,18 @@
                     <label for="date">Fecha:</label>
                     <input type="date" id="date" name="date" required>
                 </div>
+                <div class="input-box">
+                    <label for="people">Selecciona Personas:</label>
+                    <select id="people" name="people" multiple required>
+                        <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                    </select>
+                </div>
                 <button type="submit" class="btn">Guardar Gasto</button>
                 <a href="../HTML/Lista.html" class="btn-link">Volver A la Lista de Gastos</a>
                 <p id="message"></p>
             </form>
         </div>
     </div>
-    <!-- <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script> -->
     <script type="module" src="../js/RegistroGastos.js"></script>
 </body>
 </html>

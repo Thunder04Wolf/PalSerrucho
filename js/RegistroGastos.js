@@ -1,6 +1,5 @@
-// Importa las funciones necesarias de Firebase
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
-import { getFirestore, collection, addDoc } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
+import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
 import { getAuth } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 
 // Configuración de Firebase
@@ -15,20 +14,52 @@ const firebaseConfig = {
 
 // Inicializa la app de Firebase
 const app = initializeApp(firebaseConfig);
-
-// Obtén la referencia a Firestore y Auth
 const db = getFirestore(app);
 const auth = getAuth(app);
 
+// Cargar usuarios desde Firestore y llenar el select
+async function loadRegisteredUsers() {
+    try {
+        const usersCollection = collection(db, 'users');
+        const userDocs = await getDocs(usersCollection);
+        const selectElement = document.getElementById('people');
+
+        // Limpiar opciones existentes
+        selectElement.innerHTML = '';
+
+        if (userDocs.empty) {
+            console.log('No hay usuarios en la colección.');
+            return;
+        }
+
+        userDocs.forEach(doc => {
+            const user = doc.data();
+            console.log('Usuario:', user); // Mensaje de depuración
+            const option = document.createElement('option');
+            option.value = user.username; // Asegúrate de que 'username' sea el campo correcto
+            option.textContent = user.username;
+            selectElement.appendChild(option);
+        });
+
+        if (selectElement.options.length === 0) {
+            console.log('No se agregaron opciones al campo de selección.');
+        }
+    } catch (error) {
+        console.error('Error al cargar los usuarios:', error);
+    }
+}
+
+// Manejo del formulario
 document.getElementById('expenseForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
-    // Obtener valores del formulario
     const amount = parseFloat(document.getElementById('amount').value);
     const description = document.getElementById('description').value.trim();
     const date = document.getElementById('date').value;
+    const selectedOptions = Array.from(document.getElementById('people').selectedOptions);
+    const numberOfPeople = selectedOptions.length;
+    const selectedPeople = selectedOptions.map(option => option.value);
 
-    // Validar datos
     if (isNaN(amount) || amount <= 0) {
         displayMessage('El monto debe ser un número positivo.', 'error');
         return;
@@ -44,23 +75,30 @@ document.getElementById('expenseForm').addEventListener('submit', async function
         return;
     }
 
-    // Obtener el ID del usuario autenticado
+    if (numberOfPeople <= 0) {
+        displayMessage('Debes seleccionar al menos una persona.', 'error');
+        return;
+    }
+
     const user = auth.currentUser;
     if (!user) {
         displayMessage('Debes estar autenticado para guardar un gasto.', 'error');
         return;
     }
 
-    // Crear objeto de gasto
+    const amountPerPerson = amount / numberOfPeople;
+
     const expense = {
         amount: amount,
         description: description,
         date: date,
-        userId: user.uid // Añadir el ID del usuario
+        userId: user.uid,
+        numberOfPeople: numberOfPeople,
+        peopleNames: selectedPeople,
+        amountPerPerson: amountPerPerson
     };
 
     try {
-        // Guardar el gasto en Firestore
         await addDoc(collection(db, 'expenses'), expense);
         displayMessage('Gasto guardado exitosamente.', 'success');
         document.getElementById('expenseForm').reset();
@@ -73,5 +111,8 @@ document.getElementById('expenseForm').addEventListener('submit', async function
 function displayMessage(message, type) {
     const messageElement = document.getElementById('message');
     messageElement.textContent = message;
-    messageElement.style.color = type === 'error' ? 'red' : 'white';
+    messageElement.style.color = type === 'error' ? 'red' : 'green';
 }
+
+// Cargar usuarios cuando la ventana se carga
+window.addEventListener('load', loadRegisteredUsers);
