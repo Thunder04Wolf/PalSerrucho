@@ -52,7 +52,7 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       // Redirigir a la página de lista de gastos después de iniciar sesión
-      window.location.href = '../HTML/Lista.html';
+      window.location.href = '../HTML/Pagos.html';
     })
     .catch((error) => {
       alert(error.message);

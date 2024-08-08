@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" class="pagos-page">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pagos</title>
+    <link rel="stylesheet" href="../Styles/Pagos.css">
+</head>
+<body>
+    <header class="custom-header">
+        <h2 class="logo"><img src="../assets/Logo.png" alt="Logo" width="50%" /></h2>
+        <nav class="navigation">
+            <a href="#" class="custom-a">Home</a>
+            <a href="#" class="custom-a">Por definir</a>
+            <a href="#" class="custom-a">Por definir</a>
+            <a href="#" class="custom-a">Por definir</a>
+            <button class="btnLogin-popup">Login</button>
+        </nav>
+    </header>
+
+    <div class="custom-body">
+        <div id="paymentsList"></div>
+        
+        <!-- Botones de navegación -->
+        <div class="navigation-buttons">
+            <button id="prevPaymentButton" class="btn">&larr; Anterior</button>
+            <button id="nextPaymentButton" class="btn">Siguiente &rarr;</button>
+        </div>
+
+        <button id="viewAllPaymentsButton" class="btn">Ver Todos los Pagos</button>
+    </div>
+
+    <script type="module" src="../js/Pagos.js"></script>
+</body>
+</html>
