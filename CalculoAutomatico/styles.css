@@ -1,0 +1,161 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+.form-container {
+    margin-bottom: 20px;
+}
+
+.form-container label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+}
+
+.form-container input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.action-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn.add {
+    background-color: #2196F3;
+}
+
+.btn.edit {
+    background-color: #FFC107;
+}
+
+.btn.delete {
+    background-color: #F44336;
+}
+
+.btn.save {
+    background-color: #4CAF50;
+}
+
+.btn.cancel {
+    background-color: #FF5722;
+}
+
+.btn.paid-btn {
+    background-color: #2196F3; /* Azul para "Marcar como Pagado" */
+    color: #000; /* Texto negro para "Marcar como Pagado" */
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.lists-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list {
+    width: 48%;
+}
+
+.list h2 {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.edit-btn, .delete-btn, .paid-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+.edit-btn {
+    color: #FFC107;
+}
+
+.edit-btn:hover {
+    color: #FFA000;
+}
+
+.delete-btn {
+    color: #F44336;
+}
+
+.delete-btn:hover {
+    color: #D32F2F;
+}
+
+.paid-btn {
+    color: #000; /* Texto negro para "Marcar como Pagado" */
+}
+
+.paid-btn:hover {
+    color: #1976D2;
+}
+
+.summary-container {
+    margin-top: 20px;
+}
+
+.summary-container h2 {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+}
