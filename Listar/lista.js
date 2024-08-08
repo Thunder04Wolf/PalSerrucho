@@ -8,7 +8,6 @@ function displayExpenses() {
     const expensesList = document.getElementById('expensesList');
     expensesList.innerHTML = `
         <a href="../Index/index.html">Crear Nuevo Gasto</a>
-        
         <h2>Gastos Registrados</h2>
         `; // Limpiar contenido actual
 
@@ -18,7 +17,7 @@ function displayExpenses() {
     if (expenses.length === 0) {
         expensesList.innerHTML = `
         <a href="../Index/index.html">Crear Nuevo Gasto</a>
-        
+        AC
         <h2>Gastos Registrados</h2>
         <p>No hay gastos registrados.</p>`;
         return;
@@ -32,6 +31,7 @@ function displayExpenses() {
                 <th>Monto</th>
                 <th>Descripción</th>
                 <th>Fecha</th>
+                <th>Pagar por Persona</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -41,6 +41,7 @@ function displayExpenses() {
                     <td>${expense.amount.toFixed(2)}</td>
                     <td>${expense.description}</td>
                     <td>${expense.date}</td>
+                    <td>${(expense.amount/expense.Cant).toFixed(2)}</td>
                     <td>
                         <button id="editar" onclick="editExpense(${index})">Editar</button>
                         <button id="eliminar" onclick="deleteExpense(${index})">Eliminar</button>

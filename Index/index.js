@@ -3,8 +3,10 @@ document.getElementById('expenseForm').addEventListener('submit', function(event
 
     // Obtener valores del formulario
     const amount = parseFloat(document.getElementById('amount').value);
+    const Cant = parseFloat(document.getElementById('Cant').value);
     const description = document.getElementById('description').value.trim();
     const date = document.getElementById('date').value;
+    
 
     // Validar datos
     if (isNaN(amount) || amount <= 0) {
@@ -26,7 +28,8 @@ document.getElementById('expenseForm').addEventListener('submit', function(event
     const expense = {
         amount: amount,
         description: description,
-        date: date
+        date: date,
+        Cant:Cant
     };
 
     // Obtener gastos almacenados
