@@ -51,7 +51,8 @@ document.getElementById('loginForm').addEventListener('submit', function (e) {
 
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      alert("User logged in successfully!");
+      // Redirigir a la página de lista de gastos después de iniciar sesión
+      window.location.href = '../HTML/Lista.html';
     })
     .catch((error) => {
       alert(error.message);
