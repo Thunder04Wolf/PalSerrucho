@@ -29,7 +29,7 @@ function showPayment(index) {
 
     if (payment) {
         const paymentElement = document.createElement('div');
-        paymentElement.classList.add('wrapper', 'active-popup');
+        paymentElement.classList.add('wrapper');
         paymentElement.innerHTML = `
             <div class="form-box RegisterPayments">
                 <div class="contenedor">
@@ -55,9 +55,17 @@ function showPayment(index) {
                         <p>${payment.amountPerPerson ? payment.amountPerPerson : 'N/A'}</p>
                     </div>
                 </div>
+                <div class="navigation-buttons">
+                    <button id="prevPaymentButton" class="btn">&larr; Anterior</button>
+                    <button id="nextPaymentButton" class="btn">Siguiente &rarr;</button>
+                </div>
             </div>
         `;
         paymentsList.appendChild(paymentElement);
+
+        // Agregar eventos a los botones
+        document.getElementById('prevPaymentButton').addEventListener('click', showPreviousPayment);
+        document.getElementById('nextPaymentButton').addEventListener('click', showNextPayment);
     }
 }
 
@@ -120,13 +128,4 @@ window.addEventListener('load', () => {
     } else {
         loadPayments();  // Si no hay usuario autenticado, carga todos los pagos
     }
-});
-
-// Event listener para los botones de navegación
-document.getElementById('prevPaymentButton').addEventListener('click', showPreviousPayment);
-document.getElementById('nextPaymentButton').addEventListener('click', showNextPayment);
-
-// Event listener para el botón "Ver Todos los Pagos"
-document.getElementById('viewAllPaymentsButton').addEventListener('click', () => {
-    loadPayments();  // Cargar todos los pagos
 });

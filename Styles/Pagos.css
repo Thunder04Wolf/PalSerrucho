@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+/* Reseteo de márgenes y padding, y configuración de la fuente global */
 .pagos-page * {
     margin: 0;
     padding: 0;
@@ -7,7 +8,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
-/* Estilos generales */
+/* Estilos del cuerpo y fondo de la página */
 html, body {
     height: 100%;
     margin: 0;
@@ -18,11 +19,16 @@ html, body {
     background: url("../assets/background.png") no-repeat center center/cover;
 }
 
+/* Estilos para el contenedor principal */
 .custom-body {
     width: 100vw; 
     height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* Estilos para el encabezado fijo */
 .custom-header {
     position: fixed;
     top: 0;
@@ -35,6 +41,7 @@ html, body {
     z-index: 99;
 }
 
+/* Estilos para el logo */
 .logo {
     font-size: 2em;
     color: #fff;
@@ -44,6 +51,12 @@ html, body {
 .logo img {
     width: 100px; 
     height: auto; 
+}
+
+/* Estilos para la navegación */
+.navigation {
+    display: flex;
+    align-items: center;
 }
 
 .navigation .custom-a {
@@ -74,6 +87,7 @@ html, body {
     transform: scaleX(1);
 }
 
+/* Estilos para el botón de login */
 .navigation .btnLogin-popup {
     width: 100px;
     height: 40px;
@@ -94,23 +108,25 @@ html, body {
     color: #162938;
 }
 
+/* Estilos para los elementos de pago */
 .wrapper {
     position: relative;
-    top: 40px;
+    top: 400px;
     width: 480px;
     height: auto;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 20px;
     backdrop-filter: blur(20px);
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
     overflow: hidden;
     transition: transform 0.5s ease, height 0.2s ease;
 }
 
+/* Estilos para el contenido de los pagos */
 .form-box {
     width: 100%;
     padding: 40px;
@@ -124,27 +140,49 @@ html, body {
     width: 100%;
 }
 
+
 .input-box {
+    position: relative;
     width: 100%;
-    margin-bottom: 15px;
-}
-
-.input-box label {
-    display: block;
-    font-size: 16px;
+    height: 50px;
+    border-bottom: 2px solid #ffffff;
+    margin: 30px 0;
+  }
+  .input-box label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 13px;
     color: #ffffff;
-    margin-bottom: 5px;
-}
-
-.input-box input {
+    font-weight: 500;
+    pointer-events: none;
+    transition: 0.5s;
+  }
+  .input-box input:focus ~ label,
+  .input-box input:valid ~ label,
+  .input-box.input-filled label {
+    top: -5px;
+  }
+  
+  .input-box input {
     width: 100%;
-    padding: 10px;
-    border-radius: 6px;
+    height: 100%;
+    background: transparent;
     border: none;
     outline: none;
-    color: #333;
-}
-
+    color: #ffffff;
+    font-weight: 500;
+  }
+  
+  .input-box .icon {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: #ffffff;
+    line-height: 50px;
+  }
+/* Estilos para los botones */
 .btn {
     width: 100%;
     padding: 10px;
@@ -176,14 +214,17 @@ html, body {
     font-size: 16px;
 }
 
-#message {
-    margin-top: 20px;
-    font-weight: bold;
-}
-
+/* Estilos para los botones de navegación */
 .navigation-buttons {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     gap: 20px;
+}
+
+/* Estilo para el mensaje de error o información */
+#message {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #fff;
 }
