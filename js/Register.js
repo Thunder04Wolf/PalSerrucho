@@ -9,13 +9,6 @@ const registerForm = document.getElementById('registerForm');
 const wrapper = document.querySelector('.wrapper');
 const btnRegister = document.querySelector('.btn-register');
 
-
-btnRegister.addEventListener('click', () => {
-    wrapper.classList.remove('active');
- 
-
-  });
-
 const auth = window.firebaseAuth;
 const database = window.firebaseDatabase;
 
@@ -40,7 +33,8 @@ registerForm.addEventListener('submit', function (e) {
       });
     })
     .then(() => {
-   
+      // Redirigir a la página de lista de gastos después de registrar
+      window.location.href = '../HTML/Lista.html';
     })
     .catch((error) => {
       alert(error.message);
