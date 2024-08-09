@@ -4,7 +4,9 @@
   "description": "Trabajo Final...",
   "main": "index.js",
   "scripts": {
-    "test": "mocha Test/editTest.js"
+    
+    "test": "mocha Test/editTest.js Test/deleteTest.js Test/registerTest.js Test/loginTest.js Test/registerUserTest.js"
+
   },
   "keywords": [],
   "author": "",
