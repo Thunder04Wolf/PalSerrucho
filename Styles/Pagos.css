@@ -111,7 +111,7 @@ html, body {
 /* Estilos para los elementos de pago */
 .wrapper {
     position: relative;
-    top: 400px;
+    top: 100px;
     width: 480px;
     height: auto;
     background: rgba(255, 255, 255, 0.1);
@@ -150,7 +150,7 @@ html, body {
   }
   .input-box label {
     position: absolute;
-    top: 50%;
+    top: 0%;
     left: 5px;
     transform: translateY(-50%);
     font-size: 13px;
@@ -226,5 +226,12 @@ html, body {
 #message {
     margin-top: 20px;
     font-weight: bold;
+    color: #fff;
+}
+.input-box p {
+    margin: 0;
+    padding: 20px;
+    background: transparent;
+    border-radius: 6px;
     color: #fff;
 }
