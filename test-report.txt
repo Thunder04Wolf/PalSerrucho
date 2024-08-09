@@ -1,0 +1,12 @@
+Navegó a la página web.
+Botón de Login clickeado.
+Email ingresado.
+Contraseña ingresada.
+Botón de Login clickeado.
+Botón "Editar" clickeado.
+Cantidad ingresada.
+Descripción ingresada.
+Fecha seleccionada.
+Botón "Actualizar Gasto" clickeado.
+Actualización exitosa.
+Test completado con éxito.
