@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
 import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -259,6 +259,18 @@ document.getElementById('closeDetailsButton').addEventListener('click', () => {
 document.getElementById('closeDetailsButton').addEventListener('click', () => {
     document.getElementById('detailsModal').style.display = 'none';
 });
+logoutButton.addEventListener('click', () => {
+    signOut(auth)
+      .then(() => {
+        // Redirige a la página de login después de cerrar la sesión
+        window.location.href = 'Login.html';
+      })
+      .catch((error) => {
+        // Maneja cualquier error que ocurra
+        console.error('Error al cerrar sesión:', error);
+      });
+  });
+
 
 // Función auxiliar para mostrar mensajes
 function displayMessage(message, type, targetId) {

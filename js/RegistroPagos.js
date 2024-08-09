@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
 import { getFirestore, collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+import { getAuth, signOut } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -121,6 +121,17 @@ function displayMessage(message, type) {
     messageElement.textContent = message;
     messageElement.style.color = type === 'error' ? 'red' : 'green';
 }
+logoutButton.addEventListener('click', () => {
+    signOut(auth)
+      .then(() => {
+        // Redirige a la página de login después de cerrar la sesión
+        window.location.href = 'Login.html';
+      })
+      .catch((error) => {
+        // Maneja cualquier error que ocurra
+        console.error('Error al cerrar sesión:', error);
+      });
+  });
 
 // Cargar usuarios cuando la ventana se carga
 window.addEventListener('load', loadRegisteredUsers);

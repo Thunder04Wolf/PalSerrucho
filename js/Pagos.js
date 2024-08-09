@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
 import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
-import { getAuth } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+import { getAuth, signOut  } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -119,6 +119,20 @@ function showNextPayment() {
         showPayment(currentIndex);
     }
 }
+
+        logoutButton.addEventListener('click', () => {
+          signOut(auth)
+            .then(() => {
+              // Redirige a la página de login después de cerrar la sesión
+              window.location.href = 'Login.html';
+            })
+            .catch((error) => {
+              // Maneja cualquier error que ocurra
+              console.error('Error al cerrar sesión:', error);
+            });
+        });
+
+      
 
 // Cargar pagos cuando la ventana se carga
 window.addEventListener('load', () => {
