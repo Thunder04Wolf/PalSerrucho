@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js';
 import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js';
-import { getAuth, signOut  } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
+import { getAuth, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js';
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -17,10 +17,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let payments = [];  // Array para almacenar los pagos
-let currentIndex = 0;  // Índice del pago que se está mostrando
+let payments = [];
+let currentIndex = 0;
 
-// Función para mostrar un pago específico
 function showPayment(index) {
     const payment = payments[index];
     const paymentsList = document.getElementById('paymentsList');
@@ -63,35 +62,34 @@ function showPayment(index) {
         `;
         paymentsList.appendChild(paymentElement);
 
-        // Agregar eventos a los botones
         document.getElementById('prevPaymentButton').addEventListener('click', showPreviousPayment);
         document.getElementById('nextPaymentButton').addEventListener('click', showNextPayment);
     }
 }
 
-// Función para cargar los pagos desde Firestore
-async function loadPayments(userId = null) {
+async function loadPayments() {
     try {
+        console.log('Cargando pagos...');
+
         const paymentsCollection = collection(db, 'payments');
         const paymentDocs = await getDocs(paymentsCollection);
 
-        payments = [];  // Reiniciar el array de pagos
+        payments = [];
 
         paymentDocs.forEach(doc => {
             const payment = doc.data();
+            console.log('Pago encontrado:', payment);
 
-            // Filtrar pagos por userId si se proporciona
-            if (userId && payment.userId !== userId) {
-                return;
-            }
-
+            // Añadir el pago a la lista sin aplicar el filtro
             payments.push(payment);
         });
 
+        console.log('Pagos después del filtro:', payments);
+
         if (payments.length > 0) {
-            showPayment(currentIndex);  // Mostrar el primer pago
+            showPayment(currentIndex);
         } else {
-            document.getElementById('paymentsList').innerHTML = '<p>No hay pagos registrados.</p>';
+            document.getElementById('paymentsList').innerHTML = '<p>No tienes pagos pendientes.</p>';
         }
     } catch (error) {
         console.error('Error al cargar los pagos:', error);
@@ -99,12 +97,11 @@ async function loadPayments(userId = null) {
     }
 }
 
-// Función para obtener el usuario autenticado
+
 function getCurrentUser() {
     return auth.currentUser;
 }
 
-// Navegar al pago anterior
 function showPreviousPayment() {
     if (currentIndex > 0) {
         currentIndex--;
@@ -112,7 +109,6 @@ function showPreviousPayment() {
     }
 }
 
-// Navegar al siguiente pago
 function showNextPayment() {
     if (currentIndex < payments.length - 1) {
         currentIndex++;
@@ -120,26 +116,22 @@ function showNextPayment() {
     }
 }
 
-        logoutButton.addEventListener('click', () => {
-          signOut(auth)
-            .then(() => {
-              // Redirige a la página de login después de cerrar la sesión
-              window.location.href = 'Login.html';
-            })
-            .catch((error) => {
-              // Maneja cualquier error que ocurra
-              console.error('Error al cerrar sesión:', error);
-            });
+document.getElementById('logoutButton').addEventListener('click', () => {
+    signOut(auth)
+        .then(() => {
+            window.location.href = 'Login.html';
+        })
+        .catch((error) => {
+            console.error('Error al cerrar sesión:', error);
         });
+});
 
-      
-
-// Cargar pagos cuando la ventana se carga
-window.addEventListener('load', () => {
-    const user = getCurrentUser();
+onAuthStateChanged(auth, (user) => {
     if (user) {
-        loadPayments(user.uid);
+        console.log('Usuario autenticado:', user.uid);
+        loadPayments(); // Llama a loadPayments sin parámetros
     } else {
-        loadPayments();  // Si no hay usuario autenticado, carga todos los pagos
+        console.log('No hay usuario autenticado.');
+        document.getElementById('paymentsList').innerHTML = '<p>Debes estar autenticado para ver los pagos.</p>';
     }
 });

@@ -54,7 +54,7 @@ document.getElementById('people').addEventListener('change', function() {
     const amount = parseFloat(document.getElementById('amount').value);
     const selectedOptions = Array.from(this.selectedOptions);
     const numberOfPeople = selectedOptions.length;
-    const amountPerPerson = numberOfPeople > 0 ? (amount / numberOfPeople).toFixed(2) : 0;
+    const amountPerPerson = (numberOfPeople > 0 && !isNaN(amount)) ? (amount / numberOfPeople).toFixed(2) : '0.00';
 
     document.getElementById('amountPerPerson').value = amountPerPerson;
 });
@@ -118,20 +118,26 @@ document.getElementById('paymentForm').addEventListener('submit', async function
 
 function displayMessage(message, type) {
     const messageElement = document.getElementById('message');
-    messageElement.textContent = message;
-    messageElement.style.color = type === 'error' ? 'red' : 'green';
+    if (messageElement) {
+        messageElement.textContent = message;
+        messageElement.style.color = type === 'error' ? 'red' : 'green';
+    } else {
+        console.warn('Elemento de mensaje no encontrado en el DOM.');
+    }
 }
-logoutButton.addEventListener('click', () => {
+
+// Manejo de logout
+document.getElementById('logoutButton').addEventListener('click', () => {
     signOut(auth)
-      .then(() => {
-        // Redirige a la página de login después de cerrar la sesión
-        window.location.href = 'Login.html';
-      })
-      .catch((error) => {
-        // Maneja cualquier error que ocurra
-        console.error('Error al cerrar sesión:', error);
-      });
-  });
+        .then(() => {
+            // Redirige a la página de login después de cerrar la sesión
+            window.location.href = 'Login.html';
+        })
+        .catch((error) => {
+            // Maneja cualquier error que ocurra
+            console.error('Error al cerrar sesión:', error);
+        });
+});
 
 // Cargar usuarios cuando la ventana se carga
 window.addEventListener('load', loadRegisteredUsers);
