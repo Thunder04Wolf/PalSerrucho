@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../Styles/Lista.css" />
 </head>
 <body>
+    <!-- navegacion -->
     <header class="custom-header">
         <h2 class="logo"><img src="../assets/Logo.png" alt="Logo" width="50%" /></h2>
         <nav class="navigation">
@@ -17,13 +18,15 @@
 
         </nav>
       </header>
+
+      <!-- Div Para Mostrar Los Gatos De Forma Dinamica -->
     <div class="contenedor-gasto">
         <h2>Gastos Registrados</h2>
         <div id="expensesList"></div>
         <a href="../HTML/Registro.html" id="createExpenseButton" class="btn" type="button" style="text-decoration: none;">Crear Nuevo Gasto</a>
     </div>
 
-    <!-- Formulario de Edición -->
+    
     <!-- Formulario de Edición -->
      
     <div id="editFormContainer" style="display: none">
@@ -65,8 +68,8 @@
             <button id="cancelDeleteButton">Cancelar</button>
         </div>
     </div>
-<!-- Contenedor de Detalles -->
 
+<!-- Contenedor de Detalles -->
 <div id="detailsContainer" style="display: none" class="form-box details">
     <h2 class="custom-h2-form-box">Detalles del Gasto</h2>
     <div class="input-box">
