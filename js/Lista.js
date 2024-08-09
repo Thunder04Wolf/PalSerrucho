@@ -28,7 +28,7 @@ auth.onAuthStateChanged(async (user) => {
         await displayExpenses();
     } else {
         // Usuario no autenticado, redirigir al login
-        window.location.href = '/path-to-login.html';
+        window.location.href = '../index.html';
     }
 });
 
@@ -263,7 +263,7 @@ logoutButton.addEventListener('click', () => {
     signOut(auth)
       .then(() => {
         // Redirige a la página de login después de cerrar la sesión
-        window.location.href = 'Login.html';
+        window.location.href = '../index.html';
       })
       .catch((error) => {
         // Maneja cualquier error que ocurra

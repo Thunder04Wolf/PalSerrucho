@@ -131,7 +131,7 @@ document.getElementById('logoutButton').addEventListener('click', () => {
     signOut(auth)
         .then(() => {
             // Redirige a la página de login después de cerrar la sesión
-            window.location.href = 'Login.html';
+            window.location.href = '../index.html';
         })
         .catch((error) => {
             // Maneja cualquier error que ocurra

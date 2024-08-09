@@ -119,7 +119,7 @@ function showNextPayment() {
 document.getElementById('logoutButton').addEventListener('click', () => {
     signOut(auth)
         .then(() => {
-            window.location.href = 'Login.html';
+            window.location.href = '../index.html';
         })
         .catch((error) => {
             console.error('Error al cerrar sesión:', error);
