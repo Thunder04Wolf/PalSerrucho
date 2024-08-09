@@ -47,41 +47,36 @@ describe('Automated Task Test', function() {
             console.log('Haciendo clic en el botón de Login...');
             await driver.findElement(By.css('button.btn')).click();
 
-            console.log('Esperando a que cargue el primer botón "Editar" en una celda...');
-            await driver.wait(until.elementLocated(By.css('td button.edit-button')), 10000);
-            let editButtons = await driver.findElements(By.css('td button.edit-button'));
-            assert(editButtons.length > 0); // Verifica que existen botones de editar
-            await driver.wait(until.elementIsVisible(editButtons[0]), 10000);
-            await editButtons[0].click();
+            console.log('Esperando a que cargue el primer botón "delete" en una celda...');
+            await driver.wait(until.elementLocated(By.css('td button.delete-button')), 10000);
+            let deleteButtons = await driver.findElements(By.css('td button.delete-button'));
+            assert(deleteButtons.length > 0); // Verifica que existen botones de delete
+            
+            // Hacer clic en el primer botón de delete
+            await driver.wait(until.elementIsVisible(deleteButtons[0]), 10000);
+            await deleteButtons[0].click();
 
-            console.log('Esperando a que cargue el input de cantidad...');
-            await driver.wait(until.elementIsVisible(driver.findElement(By.id('editAmount'))), 10000);
-            let amountInput = await driver.findElement(By.id('editAmount'));
+            console.log('Esperando el modal de confirmación de eliminación...');
+            const modalContent = await driver.wait(until.elementLocated(By.css('.modal-content')), 10000);
+            await driver.wait(until.elementIsVisible(modalContent), 10000);
 
-            // Limpia el campo de monto antes de ingresar el nuevo valor
-            await amountInput.clear();
-            await amountInput.sendKeys('680');
+            console.log('Confirmando la eliminación...');
+            const confirmDeleteButton = await driver.findElement(By.id('confirmDeleteButton'));
+            await driver.wait(until.elementIsVisible(confirmDeleteButton), 10000);
+            await confirmDeleteButton.click();
 
-            console.log('Esperando a que cargue el input de descripción y digitación...');
-            await driver.wait(until.elementIsVisible(driver.findElement(By.id('editDescription'))), 10000);
-            await driver.findElement(By.id('editDescription')).sendKeys('Realizando el test');
+            console.log('Esperando a que la página se actualice después de la eliminación...');
+            await driver.wait(until.stalenessOf(deleteButtons[0]), 10000); // Esperar que el botón de eliminar ya no esté en la página
 
-            console.log('Seleccionando una fecha en el datepicker...');
-            await driver.findElement(By.id('editDate')).sendKeys('2024-08-08');
-
-            console.log('Haciendo clic en el botón de "Actualizar Gasto"...');
-            await driver.findElement(By.css('button.btn')).click();
-
-            console.log('Test completado con éxito.');
-
+            console.log('Eliminación completada con éxito');
         } catch (error) {
             console.error('Se produjo un error:', error);
             await takeScreenshot('error_screenshot');
-            throw error; // Propaga el error para que Mocha lo registre
-        } finally {
-            let endTime = new Date();
-            let duration = (endTime - startTime) / 1000; // Duración en segundos
-            console.log(`Test completado en ${duration} segundos.`);
+            throw error; // Relanzar el error para que Mocha lo registre
         }
+
+        let endTime = new Date();
+        let elapsedTime = endTime - startTime;
+        console.log(`Tiempo de prueba: ${elapsedTime} ms`);
     });
 });

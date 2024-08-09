@@ -25,7 +25,7 @@ describe('Automated Task Test', function() {
         console.log(`Captura de pantalla guardada en ${filePath}`);
     }
 
-    it('should complete the task successfully', async function() {
+    it('should log in, navigate to Pagos, and fill the form successfully', async function() {
         let startTime = new Date();
 
         try {
@@ -47,29 +47,34 @@ describe('Automated Task Test', function() {
             console.log('Haciendo clic en el botón de Login...');
             await driver.findElement(By.css('button.btn')).click();
 
-            console.log('Esperando a que cargue el primer botón "Editar" en una celda...');
-            await driver.wait(until.elementLocated(By.css('td button.edit-button')), 10000);
-            let editButtons = await driver.findElements(By.css('td button.edit-button'));
-            assert(editButtons.length > 0); // Verifica que existen botones de editar
-            await driver.wait(until.elementIsVisible(editButtons[0]), 10000);
-            await editButtons[0].click();
+            console.log('Esperando a que se complete el login y se cargue la página...');
+            // Espera a que un elemento clave esté visible, como el campo de monto en la página de pagos
+            await driver.wait(until.elementLocated(By.css('a#amount')), 10000); // Espera a que el enlace "Pagos" esté visible
 
-            console.log('Esperando a que cargue el input de cantidad...');
-            await driver.wait(until.elementIsVisible(driver.findElement(By.id('editAmount'))), 10000);
-            let amountInput = await driver.findElement(By.id('editAmount'));
+            console.log('Haciendo clic en el enlace "Pagos"...');
+            const pagosLink = await driver.findElement(By.css('a#amount'));
+            await pagosLink.click();
 
-            // Limpia el campo de monto antes de ingresar el nuevo valor
-            await amountInput.clear();
-            await amountInput.sendKeys('680');
+            console.log('Esperando a que cargue el formulario de pagos...');
+            await driver.wait(until.elementLocated(By.css('input#amount')), 10000); // Asegúrate de que el campo de monto esté visible
 
-            console.log('Esperando a que cargue el input de descripción y digitación...');
-            await driver.wait(until.elementIsVisible(driver.findElement(By.id('editDescription'))), 10000);
-            await driver.findElement(By.id('editDescription')).sendKeys('Realizando el test');
+            console.log('Llenando el campo "Monto"...');
+            await driver.findElement(By.id('amount')).sendKeys('780');
 
-            console.log('Seleccionando una fecha en el datepicker...');
-            await driver.findElement(By.id('editDate')).sendKeys('2024-08-08');
+            console.log('Llenando el campo "Descripción"...');
+            await driver.findElement(By.id('description')).sendKeys('Probando el test');
 
-            console.log('Haciendo clic en el botón de "Actualizar Gasto"...');
+            console.log('Seleccionando una fecha...');
+            await driver.findElement(By.id('date')).sendKeys('2024-08-08');
+
+            console.log('Esperando a que se carguen las opciones del campo de personas...');
+            const peopleSelect = await driver.findElement(By.id('people'));
+            await driver.wait(until.elementLocated(By.xpath("//option[text()='Matias ']")), 10000);
+
+            console.log('Seleccionando la opción "Matias" en el campo de personas...');
+            await peopleSelect.findElement(By.xpath("//option[text()='Matias ']")).click();
+
+            console.log('Guardando el pago...');
             await driver.findElement(By.css('button.btn')).click();
 
             console.log('Test completado con éxito.');

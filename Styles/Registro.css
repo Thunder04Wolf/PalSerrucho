@@ -99,7 +99,7 @@ html, body {
 
 .wrapper {
     position: relative;
-    top: 40px;
+    top: 80px;
     width: 480px;
     height: auto; /* Ajustado para que se ajuste al contenido */
     background: transparent;
